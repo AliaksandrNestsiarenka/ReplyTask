@@ -1,0 +1,21 @@
+﻿using OpenQA.Selenium;
+using ReplyTask.Drivers;
+using ReplyTask.Enums;
+using ReplyTask.Extensions;
+using ReplyTask.Pages;
+
+namespace ReplyTask.PageObjects.Components
+{
+    public class SidebarMenuComponent : AbstractCRMPageObject
+    {
+        private string menuItemLocatorPattern = "//div[contains(@class, '{0}')]//ancestor::a";
+
+        public T ClickSidebarItem<T>(SidebarMenuItem item)
+        {
+            var elementLocator = By.XPath(string.Format(menuItemLocatorPattern, item.GetDescription()));
+            IWebElement element = driver.FindElement(elementLocator);
+            element.Click();
+            return Activator.CreateInstance<T>();
+        }
+    }
+}
