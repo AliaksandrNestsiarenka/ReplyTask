@@ -1,4 +1,6 @@
 ﻿using OpenQA.Selenium;
+using ReplyTask.Enums;
+using ReplyTask.Extensions;
 using SeleniumExtras.WaitHelpers;
 
 namespace ReplyTask.Pages
