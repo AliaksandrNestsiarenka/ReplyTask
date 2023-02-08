@@ -1,14 +1,9 @@
 ﻿using OpenQA.Selenium;
 using ReplyTask.PageObjects.Components;
-using ReplyTask.Pages;
+using ReplyTask.PageObjects.Pages.AbstractPages;
 using SeleniumExtras.WaitHelpers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ReplyTask.PageObjects.Pages
+namespace ReplyTask.PageObjects.Pages.Contacts
 {
     public class ContactDetailsViewPage : AbstractMainPage
     {
@@ -16,7 +11,7 @@ namespace ReplyTask.PageObjects.Pages
 
         public ContactDetailsViewPage()
         {
-            wait.Until(ExpectedConditions.ElementExists(DetailViewComponentLocator));
+            wait.Until(ExpectedConditions.ElementIsVisible(DetailViewComponentLocator));
         }
 
         public ContactDetailViewComponent ContactDetailViewComponent => new ContactDetailViewComponent();

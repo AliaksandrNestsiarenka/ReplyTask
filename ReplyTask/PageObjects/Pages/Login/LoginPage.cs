@@ -1,9 +1,9 @@
 ﻿using OpenQA.Selenium;
-using ReplyTask.Enums;
-using ReplyTask.Extensions;
+using ReplyTask.PageObjects.Pages.AbstractPages;
+using ReplyTask.PageObjects.Pages.TodaysActivities;
 using SeleniumExtras.WaitHelpers;
 
-namespace ReplyTask.Pages
+namespace ReplyTask.PageObjects.Pages.Login
 {
     public class LoginPage : AbstractCRMPageObject
     {
@@ -15,7 +15,7 @@ namespace ReplyTask.Pages
 
         public HomeDashboardPage Login(string userName, string password)
         {
-            IWebElement loginUser = wait.Until(ExpectedConditions.ElementExists(loginUserLocator));
+            IWebElement loginUser = wait.Until(ExpectedConditions.ElementIsVisible(loginUserLocator));
             loginUser.SendKeys(userName);
             loginPassword.SendKeys(userName);
             loginButton.Click();

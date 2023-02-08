@@ -1,4 +1,4 @@
-﻿using ReplyTask.Pages;
+﻿using ReplyTask.PageObjects.Pages.AbstractPages;
 using System;
 using System.Collections.Generic;
 using System.Linq;

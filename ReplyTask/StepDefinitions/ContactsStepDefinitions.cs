@@ -1,44 +1,23 @@
 using NUnit.Framework;
-using OpenQA.Selenium;
-using OpenQA.Selenium.DevTools;
-using ReplyTask.Drivers;
 using ReplyTask.Enums;
 using ReplyTask.Extensions;
 using ReplyTask.Infrastructure;
 using ReplyTask.PageObjects.Models;
-using ReplyTask.PageObjects.Pages;
-using ReplyTask.Pages;
+using ReplyTask.PageObjects.Pages.Contacts;
+using ReplyTask.PageObjects.Pages.TodaysActivities;
 
 namespace ReplyTask.StepDefinitions
 {
     [Binding]
-    public sealed class CRMCloudStepDefinitions
-    {
-        private string userName = "admin";
-        private string userPassword = "admin";
+    public sealed class ContactsStepDefinitions
+    {   
         private ContactModel? newContactModel;
       
-        private IWebDriver driver => DriverFactory.Driver;
-
-        [Given(@"I am an admin user")]
-        public void GivenIAmAnAdminUser()
+        [When(@"I navigate to contacts")]
+        public void WhenINavigateToContacts()
         {
-            userName = "admin";
-            userPassword = "admin";
-        }
-
-        [When(@"I log in")]
-        public void WhenILogIn()
-        {
-            driver.Navigate().GoToUrl("https://demo.1crmcloud.com");
-            LoginPage page = new LoginPage();
-            page.Login(userName, userPassword);
-        }
-
-        [When(@"I navigate to Sales&Marketing tab")]
-        public void WhenINavigateToSalesAndMarketingTab()
-        {
-            new HomeDashboardPage().MainHeader.ClickTab<SalesAndMarketingPage>(MainHeaderTab.SalesAndMarketing);
+            new HomeDashboardPage().MainHeader.ClickSubTab<ContactsPage>(MainHeaderTab.SalesAndMarketing, MainHeaderSubTab.Contacts);
+            Thread.Sleep(2000);
         }
 
         [Given(@"I have a new contact information")]
@@ -56,7 +35,7 @@ namespace ReplyTask.StepDefinitions
         [When(@"I create a new contact")]
         public void WhenICreateANewContact()
         {
-            CreateContactPage createContactPage = new SalesAndMarketingPage().SidebarMenuComponent.ClickSidebarItem<CreateContactPage>(SidebarMenuItem.CreateContact);
+            CreateContactPage createContactPage = new ContactsPage().SidebarMenuComponent.ClickSidebarItem<CreateContactPage>(SidebarMenuItem.CreateContact);
             createContactPage.SetFirstName(newContactModel?.FirstName ?? "");
             createContactPage.SetLastName(newContactModel?.LastName ?? "");
             createContactPage.SetCategories(newContactModel?.ContactCategories ?? new List<ContactCategory>());

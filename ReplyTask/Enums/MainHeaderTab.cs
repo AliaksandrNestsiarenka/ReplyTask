@@ -2,6 +2,7 @@
 {
     public enum MainHeaderTab
     {
-        SalesAndMarketing = 1
+        SalesAndMarketing = 1,
+        ReportsAndSettings = 5
     }
 }

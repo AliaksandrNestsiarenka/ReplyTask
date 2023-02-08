@@ -11,20 +11,23 @@ namespace ReplyTask.Hooks
         private IWebDriver? driver;
         private string PathToMainConfig = Directory.GetParent(@"../../../").FullName +
             Path.DirectorySeparatorChar + "Configuration/mainconfig.json";
+        public static MainConfigModel mainConfigModel;
 
 
         [BeforeScenario()]
         public void BeforeScenarioWithTag()
         {
             ConfigurationBuilder builder = new ConfigurationBuilder();
-            MainConfigModel mainConfigModel = new MainConfigModel();
+            mainConfigModel = new MainConfigModel();
             builder.AddJsonFile(PathToMainConfig);
             IConfigurationRoot configurationRoot = builder.Build();
             configurationRoot.Bind(mainConfigModel);
             var browserType = mainConfigModel.Browser;
+            var baseUrl = mainConfigModel.BaseUrl;
             DriverFactory.InitDriver(browserType);
             driver = DriverFactory.Driver;
             driver.Manage().Window.Maximize();
+            driver.Navigate().GoToUrl(baseUrl);
         }
 
         [AfterScenario]

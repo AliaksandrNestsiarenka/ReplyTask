@@ -1,5 +1,5 @@
 ﻿using OpenQA.Selenium;
-using ReplyTask.Pages;
+using ReplyTask.PageObjects.Pages.AbstractPages;
 
 namespace ReplyTask.PageObjects.Components
 {

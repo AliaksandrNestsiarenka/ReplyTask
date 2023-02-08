@@ -1,11 +1,10 @@
 ﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Interactions;
 using ReplyTask.Enums;
 using ReplyTask.Extensions;
-using ReplyTask.Pages;
+using ReplyTask.PageObjects.Pages.AbstractPages;
 using SeleniumExtras.WaitHelpers;
 
-namespace ReplyTask.PageObjects.Pages
+namespace ReplyTask.PageObjects.Pages.Contacts
 {
     public class CreateContactPage : AbstractCRMPageObject
     {
@@ -27,7 +26,7 @@ namespace ReplyTask.PageObjects.Pages
 
         public CreateContactPage()
         {
-            wait.Until(ExpectedConditions.ElementExists(firstNameLocator));
+            wait.Until(ExpectedConditions.ElementIsVisible(firstNameLocator));
         }
 
         public void SetFirstName(string firstName)
@@ -51,10 +50,11 @@ namespace ReplyTask.PageObjects.Pages
 
                 IWebElement categoryInput = driver.FindElement(categoryInputLocator);
                 categoryInput.Click();
-                IWebElement categoriesSearch = wait.Until(ExpectedConditions.ElementExists(categoriesSearchInputLocator));
+                IWebElement categoriesSearch = wait.Until(ExpectedConditions.ElementIsVisible(categoriesSearchInputLocator));
                 categoriesSearch.SendKeys(categoryDescription);
                 IWebElement categoryOption = driver.FindElement(By.XPath(string.Format(categoriesOptionLocatorPattern, categoryDescription)));
                 categoryOption.Click();
+                Thread.Sleep(1000);
             }
         }
 
@@ -63,7 +63,7 @@ namespace ReplyTask.PageObjects.Pages
             string businessRoleDescription = businessRole.GetDescription();
             IWebElement categoryInput = driver.FindElement(businessRoleInputLocator);
             categoryInput.Click();
-            new Actions(driver).SendKeys(businessRoleDescription).Perform();
+            actions.SendKeys(businessRoleDescription).Perform();
             IWebElement categoryOption = wait.
                 Until(ExpectedConditions.ElementExists(By.XPath(string.Format(businessRoleLocatorPattern, businessRoleDescription))));
             categoryOption.Click();

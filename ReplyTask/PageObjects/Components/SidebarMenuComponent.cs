@@ -2,7 +2,7 @@
 using ReplyTask.Drivers;
 using ReplyTask.Enums;
 using ReplyTask.Extensions;
-using ReplyTask.Pages;
+using ReplyTask.PageObjects.Pages.AbstractPages;
 
 namespace ReplyTask.PageObjects.Components
 {
