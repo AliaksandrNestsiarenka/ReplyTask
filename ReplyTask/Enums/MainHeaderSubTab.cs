@@ -9,6 +9,9 @@ namespace ReplyTask.Enums
         Reports,
 
         [Description("Contacts")]
-        Contacts
+        Contacts,
+
+        [Description("Activity Log")]
+        ActivityLog
     }
 }
