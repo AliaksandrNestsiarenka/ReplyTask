@@ -1,7 +1,9 @@
 ﻿using Microsoft.Extensions.Configuration;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using ReplyTask.ConfigurationModels;
 using ReplyTask.Drivers;
+[assembly: Parallelizable(ParallelScope.Fixtures)]
 
 namespace ReplyTask.Hooks
 {
@@ -9,25 +11,32 @@ namespace ReplyTask.Hooks
     public sealed class MainHooks
     {
         private IWebDriver? driver;
+        private ScenarioContext _scenarioContext;
+
         private string PathToMainConfig = Directory.GetParent(@"../../../").FullName +
             Path.DirectorySeparatorChar + "Configuration/mainconfig.json";
-        public static MainConfigModel mainConfigModel;
 
+        public MainHooks(ScenarioContext scenarioContext)
+        {
+            _scenarioContext = scenarioContext;
+        }
 
         [BeforeScenario()]
         public void BeforeScenarioWithTag()
         {
             ConfigurationBuilder builder = new ConfigurationBuilder();
-            mainConfigModel = new MainConfigModel();
+            MainConfigModel mainConfigModel = new MainConfigModel();
             builder.AddJsonFile(PathToMainConfig);
             IConfigurationRoot configurationRoot = builder.Build();
             configurationRoot.Bind(mainConfigModel);
-            var browserType = mainConfigModel.Browser;
+            _scenarioContext.Set(mainConfigModel, "Config");
+            var browserName = mainConfigModel.Browser;
             var baseUrl = mainConfigModel.BaseUrl;
-            DriverFactory.InitDriver(browserType);
-            driver = DriverFactory.Driver;
-            driver.Manage().Window.Maximize();
-            driver.Navigate().GoToUrl(baseUrl);
+            DriverFactory driverFactory = new DriverFactory(_scenarioContext);
+            driverFactory.InitDriver(browserName);
+            driver  = _scenarioContext.Get<IWebDriver>("WebDriver");
+            driver?.Manage().Window.Maximize();
+            driver?.Navigate().GoToUrl(baseUrl);
         }
 
         [AfterScenario]
@@ -35,7 +44,7 @@ namespace ReplyTask.Hooks
         {
             if (driver != null)
             {
-                DriverFactory.QuiteDriver();
+                _scenarioContext.Get<IWebDriver>("WebDriver").Quit();
             }
         }
     }

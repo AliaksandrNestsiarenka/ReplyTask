@@ -9,33 +9,40 @@ namespace ReplyTask.StepDefinitions
     [Binding]
     public sealed class ReportsStepsDefinitions
     {
-        List<ActivityLogItem> activityLogItemsToBeDeleted;
-        List<string> deletedActivityLogItemsContent;
+        private List<ActivityLogItem> activityLogItemsToBeDeleted;
+        private List<string> deletedActivityLogItemsContent;
+
+        private ScenarioContext _scenarioContext;
+
+        public ReportsStepsDefinitions(ScenarioContext scenarioContext) 
+        {
+            _scenarioContext = scenarioContext;
+        }
 
         [When(@"I navigate to reports")]
         public void WhenINavigateToReports()
         {
-            new HomeDashboardPage().MainHeader.ClickSubTab<AllReportsPage>(MainHeaderTab.ReportsAndSettings, MainHeaderSubTab.Reports);
+            new HomeDashboardPage(_scenarioContext).MainHeader.ClickSubTab<AllReportsPage>(MainHeaderTab.ReportsAndSettings, MainHeaderSubTab.Reports);
         }
 
         [When(@"I open '([^']*)' report")]
         public void WhenIOpenReport(string reportName)
         {
-            AllReportsPage allReportsPage = new AllReportsPage();
+            AllReportsPage allReportsPage = new AllReportsPage(_scenarioContext);
             allReportsPage.FilterReports(reportName);
-            var projectReportsPage = allReportsPage.OpenReport(reportName);
+            allReportsPage.OpenReport(reportName);
         }
 
         [When(@"I run the report")]
         public void WhenIRunTheReport()
         {
-            new ProjectReportsPage().RunReport();
+            new ProjectReportsPage(_scenarioContext).RunReport();
         }
 
         [Then(@"Report's resuls are displayed")]
         public void ThenReportsResulsAreDisplayed()
         {
-            bool areAnyItems = new ProjectReportsPage().GetReportResultsItems().Any();
+            bool areAnyItems = new ProjectReportsPage(_scenarioContext).GetReportResultsItems().Any();
 
             Assert.IsTrue(areAnyItems, "There are no results.");
         }
@@ -43,14 +50,14 @@ namespace ReplyTask.StepDefinitions
         [When(@"I navigate to activity log")]
         public void WhenINavigateToActivityLog()
         {
-            new HomeDashboardPage().MainHeader.ClickSubTab<ActivityLogPage>(MainHeaderTab.ReportsAndSettings, MainHeaderSubTab.ActivityLog);
+            new HomeDashboardPage(_scenarioContext).MainHeader.ClickSubTab<ActivityLogPage>(MainHeaderTab.ReportsAndSettings, MainHeaderSubTab.ActivityLog);
         }
 
         [When(@"I remove first (.*) items")]
         public void WhenIRemoveItems(int numberOfItems)
         {
             activityLogItemsToBeDeleted = new List<ActivityLogItem>();
-            ActivityLogPage activityLogPage = new ActivityLogPage();
+            ActivityLogPage activityLogPage = new ActivityLogPage(_scenarioContext);
             var currentActivityLogItems = activityLogPage.GetActivityLogItems();
             deletedActivityLogItemsContent = new List<string>();
 
@@ -59,13 +66,13 @@ namespace ReplyTask.StepDefinitions
                 deletedActivityLogItemsContent.Add(currentActivityLogItems.ElementAt(i).GetElementText());
             }
 
-            new ActivityLogPage().DeleteItems(numberOfItems);
+            new ActivityLogPage(_scenarioContext).DeleteItems(numberOfItems);
         }
 
         [Then(@"The items are not displayed")]
         public void ThenTheItemsAreNotDisplayed()
         {
-            ActivityLogPage activityLogPage = new ActivityLogPage();
+            ActivityLogPage activityLogPage = new ActivityLogPage(_scenarioContext);
             var currentActivityLogItems = activityLogPage.GetActivityLogItems();
             List<string> currentActivityLogContent = new List<string>();
            

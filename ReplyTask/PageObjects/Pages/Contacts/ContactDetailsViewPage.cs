@@ -9,11 +9,11 @@ namespace ReplyTask.PageObjects.Pages.Contacts
     {
         private By DetailViewComponentLocator = By.XPath("//div[@id = '_form_header']//h3");
 
-        public ContactDetailsViewPage()
+        public ContactDetailsViewPage(ScenarioContext scenarioContext) : base(scenarioContext)
         {
             wait.Until(ExpectedConditions.ElementIsVisible(DetailViewComponentLocator));
         }
 
-        public ContactDetailViewComponent ContactDetailViewComponent => new ContactDetailViewComponent();
+        public ContactDetailViewComponent ContactDetailViewComponent => new ContactDetailViewComponent(scenarioContext);
     }
 }

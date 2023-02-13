@@ -24,7 +24,7 @@ namespace ReplyTask.PageObjects.Pages.Contacts
 
         private By categoryInputLocator = By.Id("DetailFormcategories-input");
 
-        public CreateContactPage()
+        public CreateContactPage(ScenarioContext scenarioContext) : base(scenarioContext)
         {
             wait.Until(ExpectedConditions.ElementIsVisible(firstNameLocator));
         }
@@ -73,7 +73,7 @@ namespace ReplyTask.PageObjects.Pages.Contacts
         {
             IWebElement saveButton = driver.FindElement(saveButtonLocator);
             saveButton.Click();
-            return Activator.CreateInstance<T>();
+            return (T)Activator.CreateInstance(typeof(T), scenarioContext);
         }
     }
 }

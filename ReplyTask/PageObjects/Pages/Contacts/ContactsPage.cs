@@ -5,7 +5,7 @@ namespace ReplyTask.PageObjects.Pages.Contacts
 {
     public class ContactsPage : AbstractMainPage
     {
-        public ContactsPage()
+        public ContactsPage(ScenarioContext scenarioContext) : base(scenarioContext)
         {
             // wait.Until(ExpectedConditions.ElementIsVisible(mainTitleLocator));
             wait.Until(ExpectedConditions.UrlContains("Contacts&action=index"));

@@ -10,7 +10,12 @@ namespace ReplyTask.PageObjects.Pages.Reports
         private By ActivityLogItemLocator = By.XPath("//tr[@data-id]");
         private By ActionsButtonLocator = By.XPath("//button[contains(@id, 'ActionButtonHead')]");
         private By DeleteOptionLocator = By.XPath("//div[text()='Delete']");
-    
+
+        public ActivityLogPage(ScenarioContext scenarioContext) : base(scenarioContext)
+        {
+
+        }
+
         public List<ActivityLogItem> GetActivityLogItems()
         {
             List<ActivityLogItem> items = new List<ActivityLogItem>();

@@ -5,7 +5,7 @@ namespace ReplyTask.PageObjects.Pages.TodaysActivities
 {
     public class HomeDashboardPage : AbstractMainPage
     {
-        public HomeDashboardPage()
+        public HomeDashboardPage(ScenarioContext scenarioContext) : base(scenarioContext)
         {
             wait.Until(ExpectedConditions.UrlContains("Home&action=index"));
         }

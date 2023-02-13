@@ -11,6 +11,11 @@ namespace ReplyTask.PageObjects.Components
 
         public IWebElement BusinessRole => driver.FindElement(By.XPath("//div[contains(@class, 'cell-business_role')]//div[@class = 'form-value']"));
 
+        public ContactDetailViewComponent(ScenarioContext scenarioContext) : base(scenarioContext)
+        {
+
+        }
+
         public string GetFullName()
         {
             return FullName.Text.Replace("&nbsp", "").Trim();

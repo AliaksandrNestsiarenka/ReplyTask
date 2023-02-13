@@ -10,7 +10,7 @@ namespace ReplyTask.PageObjects.Pages.Reports
 
         private By filterInputLocator = By.Id("filter_text");
 
-        public AllReportsPage()
+        public AllReportsPage(ScenarioContext scenarioContext) : base(scenarioContext)
         {
             wait.Until(ExpectedConditions.UrlContains("Reports&action=index"));
         }
@@ -29,7 +29,7 @@ namespace ReplyTask.PageObjects.Pages.Reports
             element.Click();
             Thread.Sleep(2000);
 
-            return new ProjectReportsPage();
+            return new ProjectReportsPage(scenarioContext);
         }
     }
 }

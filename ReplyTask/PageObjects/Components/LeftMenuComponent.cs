@@ -9,5 +9,9 @@ namespace ReplyTask.Components
 {
     public class LeftMenuComponent : AbstractCRMPageObject
     {
+        public LeftMenuComponent(ScenarioContext scenarioContext) : base(scenarioContext)
+        {
+
+        }
     }
 }

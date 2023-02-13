@@ -12,11 +12,17 @@ namespace ReplyTask.StepDefinitions
     public sealed class ContactsStepDefinitions
     {   
         private ContactModel? newContactModel;
-      
+        private ScenarioContext _scenarioContext;
+
+        public ContactsStepDefinitions(ScenarioContext scenarioContext)
+        {
+            _scenarioContext = scenarioContext;
+        }
+
         [When(@"I navigate to contacts")]
         public void WhenINavigateToContacts()
         {
-            new HomeDashboardPage().MainHeader.ClickSubTab<ContactsPage>(MainHeaderTab.SalesAndMarketing, MainHeaderSubTab.Contacts);
+            new HomeDashboardPage(_scenarioContext).MainHeader.ClickSubTab<ContactsPage>(MainHeaderTab.SalesAndMarketing, MainHeaderSubTab.Contacts);
             Thread.Sleep(2000);
         }
 
@@ -35,7 +41,7 @@ namespace ReplyTask.StepDefinitions
         [When(@"I create a new contact")]
         public void WhenICreateANewContact()
         {
-            CreateContactPage createContactPage = new ContactsPage().SidebarMenuComponent.ClickSidebarItem<CreateContactPage>(SidebarMenuItem.CreateContact);
+            CreateContactPage createContactPage = new ContactsPage(_scenarioContext).SidebarMenuComponent.ClickSidebarItem<CreateContactPage>(SidebarMenuItem.CreateContact);
             createContactPage.SetFirstName(newContactModel?.FirstName ?? "");
             createContactPage.SetLastName(newContactModel?.LastName ?? "");
             createContactPage.SetCategories(newContactModel?.ContactCategories ?? new List<ContactCategory>());
@@ -46,7 +52,7 @@ namespace ReplyTask.StepDefinitions
         [Then(@"Created contact details matches with the contact information")]
         public void ThenCreatedContactDetailsMatchesWithTheContactInformation()
         {
-            ContactDetailsViewPage contactDetailsViewPage = new ContactDetailsViewPage();
+            ContactDetailsViewPage contactDetailsViewPage = new ContactDetailsViewPage(_scenarioContext);
             var actualFullName = contactDetailsViewPage.ContactDetailViewComponent.GetFullName();
             var actualCategories = contactDetailsViewPage.ContactDetailViewComponent.GetCategory();
             var actualBusinessRole = contactDetailsViewPage.ContactDetailViewComponent.GetBusinessRole();

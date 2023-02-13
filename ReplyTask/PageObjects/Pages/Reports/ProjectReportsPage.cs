@@ -11,7 +11,7 @@ namespace ReplyTask.PageObjects.Pages.Reports
 
         public IWebElement RunReportButton;
 
-        public ProjectReportsPage()
+        public ProjectReportsPage(ScenarioContext scenarioContext) : base(scenarioContext)
         {
             RunReportButton = wait.Until(ExpectedConditions.ElementIsVisible(runReportButtonLocator));
         }

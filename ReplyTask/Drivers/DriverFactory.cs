@@ -2,28 +2,21 @@
 using OpenQA.Selenium;
 using WebDriverManager.DriverConfigs.Impl;
 using WebDriverManager;
+using NUnit.Framework;
 
 namespace ReplyTask.Drivers
 {
     public class DriverFactory
     {
-        private static IWebDriver? driver;
+        private IWebDriver? driver;
+        private ScenarioContext _scenarioContext;
 
-        public static IWebDriver Driver
+        public DriverFactory(ScenarioContext scenarioContext)
         {
-            get
-            {
-                if (driver == null)
-                    throw new NullReferenceException("The WebDriver browser instance was not initialized. You should first call the method InitBrowser.");
-                return driver;
-            }
-            private set
-            {
-                driver = value;
-            }
+            _scenarioContext = scenarioContext;
         }
 
-        public static void InitDriver(string browserName)
+        public void InitDriver(string browserName)
         {
             switch (browserName)
             {
@@ -31,17 +24,18 @@ namespace ReplyTask.Drivers
                     if (driver == null)
                     {
                         new DriverManager().SetUpDriver(new ChromeConfig());
-                        Driver = new ChromeDriver();
+                        driver = new ChromeDriver();
+                        _scenarioContext.Set(driver, "WebDriver");
                     }
                     break;
             }
         }
 
-        public static void QuiteDriver()
+        public void QuiteDriver()
         {
             if (driver != null)
             {
-                driver.Quit();
+                _scenarioContext.Get<IWebDriver>("WebDriver").Quit();
             }
         }
     }

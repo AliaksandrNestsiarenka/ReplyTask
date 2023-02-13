@@ -9,6 +9,11 @@ namespace ReplyTask.PageObjects.Pages.Login
     {
         private By loginUserLocator = By.Id("login_user");
 
+        public LoginPage(ScenarioContext scenarioContext) : base(scenarioContext)
+        {
+
+        }
+
         public IWebElement loginPassword => driver.FindElement(By.Id("login_pass"));
 
         public IWebElement loginButton => driver.FindElement(By.Id("login_button"));
@@ -20,7 +25,7 @@ namespace ReplyTask.PageObjects.Pages.Login
             loginPassword.SendKeys(userName);
             loginButton.Click();
 
-            return new HomeDashboardPage();
+            return new HomeDashboardPage(scenarioContext);
         }
     }
 }

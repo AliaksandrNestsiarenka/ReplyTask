@@ -9,8 +9,13 @@ namespace ReplyTask.PageObjects.Pages.AbstractPages
         protected By mainTitleLocator = By.Id("main-title");
         protected By leftSidebarLocator = By.Id("left-sidebar");
 
-        public MainHeaderComponent MainHeader => new MainHeaderComponent();
+        protected AbstractMainPage(ScenarioContext scenarioContext) : base(scenarioContext)
+        {
 
-        public SidebarMenuComponent SidebarMenuComponent => new SidebarMenuComponent();
+        }
+
+        public MainHeaderComponent MainHeader => new MainHeaderComponent(scenarioContext);
+
+        public SidebarMenuComponent SidebarMenuComponent => new SidebarMenuComponent(scenarioContext);
     }
 }
